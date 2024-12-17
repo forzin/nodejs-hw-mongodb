@@ -1,8 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import createError from 'http-errors';
 
-import * as contactServices from './services/contacts-service.js';
+import contactsRouter from './routers/contacts.js';
+
 import { getEnvVar } from './utils/getEnvVar.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 export const setupServer = () => {
     const app = express();
@@ -10,55 +14,11 @@ export const setupServer = () => {
     app.use(express.json());
     app.use(cors());
 
-    app.get('/contacts', async (req, res) => {
-        try {
-           const data = await contactServices.getContacts();
+    app.use('/contacts', contactsRouter);
 
-           res.json({
-               status: 200,
-               message: 'Successfully found contacts',
-               data
-           });
-        } catch (error) {
-            console.log(`Error ${error.message}`);
-        }
-    });
+    app.use(notFoundHandler);
 
-    app.get('/contacts/:id', async (req, res) => {
-        try {
-           const { id } = req.params;
-
-           const data = await contactServices.getContactById(id);
-
-           if (!data) {
-               res.status(404).json({
-                   status: 404,
-                   message: 'Contact not found'
-                });
-            };
-
-           res.json({
-               status: 200,
-               message: `Successfully found contact with id ${id}!`,
-               data
-           });
-        } catch (error) {
-            console.log(`Error ${error.message}`);
-        }
-    });
-
-    app.get((req, res) => {
-        res.status(404).json({
-            message: `${req.url} not found`
-        });
-    });
-
-    app.get((error, req, res, next) => {
-        res.status(500).json({
-            message: `Server error`,
-            error: error.message,
-        });
-    });
+    app.use(errorHandler);
 
     const port = Number(getEnvVar('PORT', 4839));
 
