@@ -20,12 +20,12 @@ export const getContactByIdController = async (req, res) => {
     const data = await contactServices.getContactById(id);
 
     if (!data) {
-        throw createError(404, `Movie with id: ${id} not found`);
+        throw createError(404, 'Contact not found');
     };
 
     res.json({
         status: 200,
-        message: `Successfully found contact with id ${id} not found`,
+        message: `Successfully found contact with id ${id}`,
         data
     });
 };
