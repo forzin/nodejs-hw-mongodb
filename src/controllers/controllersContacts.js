@@ -2,9 +2,17 @@ import * as contactServices from '../services/contacts-service.js';
 
 import createError from 'http-errors';
 
-export const getContactController = async (req, res) => {
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseContactFilterParams } from '../utils/filters/parseContactFilterParams.js';
+import { sortByList } from '../db/models/Contact.js';
 
-    const data = await contactServices.getContacts();
+export const getContactController = async (req, res) => {
+    const { page, perPage } = parsePaginationParams(req.query);
+    const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
+    const filter = parseContactFilterParams(req.query);
+
+    const data = await contactServices.getContacts({ page, perPage, sortBy, sortOrder, filter });
 
     res.json({
         status: 200,
@@ -31,6 +39,7 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
+
     const data = await contactServices.addContact(req.body);
 
     res.status(201).json({
@@ -65,4 +74,3 @@ export const deleteContactController = async (req, res) => {
 
     res.status(204).send();
 }
-
