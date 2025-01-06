@@ -21,10 +21,12 @@ export const getContacts = async ({ page = 1, perPage = 10, sortBy = '_id', sort
 
 export const getContactById = id => ContactCollection.findById(id);
 
+export const getMovie = filter => ContactCollection.findOne(filter);
+
 export const addContact = payload => ContactCollection.create(payload);
 
-export const updateContact = async (_id, payload) => {
-    const result = await ContactCollection.findOneAndUpdate({ _id }, payload, { returnDocument: "after" });
+export const updateContact = async (filter, payload) => {
+    const result = await ContactCollection.findOneAndUpdate(filter, payload, { returnDocument: "after" });
 
     if (!result) return null;
 
