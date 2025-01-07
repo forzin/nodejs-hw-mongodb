@@ -2,11 +2,17 @@ import ContactCollection from '../db/models/Contact.js';
 
 import { calcPaginationData } from '../utils/calcPaginationData.js';
 
-export const getContacts = async ({ page = 1, perPage = 10, sortBy = '_id', sortOrder = 'asc' }) => {
+export const getContacts = async ({ page = 1, perPage = 10, sortBy = '_id', sortOrder = 'asc', userId = {} }) => {
     const limit = perPage;
     const skip = (page - 1) * limit;
-    const data = await ContactCollection.find().skip(skip).limit(limit).sort({[sortBy] : sortOrder});
-    const totalItems = await ContactCollection.countDocuments();
+    const contactsQuery = ContactCollection.find();
+
+    if (userId) {
+        contactsQuery.where('userId').equals(userId);
+    };
+
+    const data = await contactsQuery.skip(skip).limit(limit).sort({[sortBy] : sortOrder});
+    const totalItems = await ContactCollection.find().merge(contactsQuery).countDocuments();
 
     const paginationData = calcPaginationData({ totalItems, page, perPage });
 
@@ -21,7 +27,7 @@ export const getContacts = async ({ page = 1, perPage = 10, sortBy = '_id', sort
 
 export const getContactById = id => ContactCollection.findById(id);
 
-export const getMovie = filter => ContactCollection.findOne(filter);
+export const getContact = filter => ContactCollection.findOne(filter);
 
 export const addContact = payload => ContactCollection.create(payload);
 
