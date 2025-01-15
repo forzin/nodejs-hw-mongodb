@@ -8,6 +8,8 @@ import { ctrlWarapper } from '../decorators/ctrlwrapper.js';
 
 import { validateBody } from '../middlewares/validateBody.js';
 
+import { upload } from '../middlewares/multer.js';
+
 import { isValidId } from '../middlewares/isValidId.js';
 
 import { contactAddSchema, contactUpdateSchema } from '../validation/contactsValidation.js';
@@ -20,9 +22,9 @@ contactsRouter.get('/', ctrlWarapper(contactsController.getContactController));
 
 contactsRouter.get('/:id', isValidId, ctrlWarapper(contactsController.getContactByIdController));
 
-contactsRouter.post('/', validateBody(contactAddSchema), ctrlWarapper(contactsController.addContactController));
+contactsRouter.post('/', upload.single('photo'), validateBody(contactAddSchema), ctrlWarapper(contactsController.addContactController));
 
-contactsRouter.patch('/:id', isValidId, validateBody(contactUpdateSchema), ctrlWarapper(contactsController.patchContactController));
+contactsRouter.patch('/:id', upload.single('photo'), isValidId, validateBody(contactUpdateSchema), ctrlWarapper(contactsController.patchContactController));
 
 contactsRouter.delete('/:id', isValidId,  ctrlWarapper(contactsController.deleteContactController));
 
