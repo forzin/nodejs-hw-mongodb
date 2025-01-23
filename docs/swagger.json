@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3489"
+      "url": "https://nodejs-hw-mongodb-yvxt.onrender.com"
     }
   ],
   "tags": [
@@ -171,6 +171,7 @@
                 "type": "object",
                 "required": [
                   "name",
+                  "email",
                   "phoneNumber",
                   "contactType"
                 ],
@@ -179,6 +180,11 @@
                     "description": "Contact's name",
                     "type": "string",
                     "example": "John Doe"
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "example@mail.com"
                   },
                   "phoneNumber": {
                     "description": "Contact's number",
@@ -198,11 +204,6 @@
                     "description": "Choose if it is your favorite contact true or false",
                     "type": "boolean",
                     "example": true
-                  },
-                  "userId": {
-                    "description": "Contact's parent id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Contact's photo",
@@ -255,7 +256,7 @@
         "tags": [
           "Contacts"
         ],
-        "summary": "Create contact by id",
+        "summary": "Get contact by id",
         "operationId": "getContact",
         "description": "Get contact by id",
         "security": [
@@ -346,6 +347,11 @@
                     "type": "string",
                     "example": "John Doe"
                   },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "example@mail.com"
+                  },
                   "phoneNumber": {
                     "description": "Contact's number",
                     "type": "number",
@@ -364,11 +370,6 @@
                     "description": "Choose if it is your favorite contact true or false",
                     "type": "boolean",
                     "example": true
-                  },
-                  "userId": {
-                    "description": "Contact's parent id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Contact's photo",

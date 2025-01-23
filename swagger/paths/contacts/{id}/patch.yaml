@@ -22,6 +22,10 @@ requestBody:
             description: "Contact's name"
             type: string
             example: 'John Doe'
+          email:
+            description: "Contact's email"
+            type: string
+            example: 'example@mail.com'
           phoneNumber:
             description: "Contact's number"
             type: number
@@ -34,10 +38,6 @@ requestBody:
             description: 'Choose if it is your favorite contact true or false'
             type: boolean
             example: true
-          userId:
-            description: "Contact's parent id"
-            type: string
-            example: 65e4decdd286b30065d54af9
           photo:
             description: "Contact's photo"
             type: string
